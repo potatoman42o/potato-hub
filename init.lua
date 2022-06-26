@@ -1,5 +1,29 @@
-if game.PlaceId == 301549746 then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/potatoman42o/potato-hub/main/counter%20blox",true))()
-elseif game.PlaceId == 292439477 then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/potatoman42o/potato-hub/main/phantom_forces.lua",true))()
+shared.key = shared.key or "KEY_HERE"
+
+local Domain = "potatoman.host"
+
+local ValidationURL = "https://%s/Authenticate.php?key=%s&rand=%d"
+local Rand = math.random(-10000000, 10000000)
+local md5 = loadstring(game:HttpGet("https://raw.githubusercontent.com/kikito/md5.lua/master/md5.lua"))().sumhexa
+
+ValidationURL = ValidationURL:format(Domain, shared.key, Rand)
+
+local ExpectedResponse = md5(md5(shared.key) .. md5(tostring(Rand)))
+
+if(game:HttpGet(ValidationURL) == ExpectedResponse) then
+    print("Key is valid!")
+        loadstring(game:HttpGet("https://potatoman.host/scripts/init.lua",true))()
+
+
+else
+    print("Key is NOT valid!")
 end
+
+
+
+
+
+
+
+
+
